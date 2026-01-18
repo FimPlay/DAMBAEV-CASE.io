@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>DAMBAEV-CASE</title>
+    <style>
+        :root {
+            --bg: #05070a;
+            --panel: rgba(22, 27, 34, 0.95);
+            --accent: #00d4ff;
+            --blue: #4b69ff; --purple: #8847ff; --pink: #d32ee6; --red: #eb4b4b; --gold: #ffb700;
+        }
+
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            background: var(--bg); 
+            color: white; 
+            margin: 0; 
+            overflow-x: hidden; 
+            touch-action: manipulation; 
+        }
+
+        #snow { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 0; }
+
+        header {
+            width: 100%; 
+            background: var(--panel); 
+            backdrop-filter: blur(10px);
+            padding: 12px 10px; 
+            display: flex; 
+            justify-content: flex-start; 
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1); 
+            position: sticky; 
+            top: 0; 
+            z-index: 100;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .header-left { 
+            font-weight: 900; 
+            font-size: 18px; 
+            color: var(--accent); 
+            cursor: pointer; 
+            padding: 0 10px 0 15px; 
+            flex: 0 0 auto;
+        }
+
+        .header-right { 
+            font-size: 18px; 
+            font-weight: bold; 
+            color: var(--accent); 
+            position: absolute; 
+            right: 15px; 
+            top: 16px; 
+            z-index: 10;
+            background: var(--panel);
+            padding: 5px 10px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .nav-center { 
+            display: flex; 
+            gap: 10px; 
+            font-size: 12px;
+            flex-wrap: wrap;
+            margin: 0 10px;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .nav-link { 
+            cursor: pointer; 
+            font-weight: bold; 
+            text-transform: uppercase; 
+            opacity: 0.6; 
+            transition: 0.3s; 
+            padding: 5px 10px;
+            border-radius: 6px;
+        }
+
+        .nav-link:hover, .nav-link.active { 
+            opacity: 1; 
+            color: var(--accent); 
+            background: rgba(0,212,255,0.1);
+        }
+
+        .hamburger {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            background: rgba(0,212,255,0.1);
+            padding: 5px 10px;
+            border-radius: 6px;
+        }
+
+        .hamburger.active {
+            background: var(--accent);
+            color: black;
+        }
+
+        .nav-mobile {
+            display: none;
+            flex-direction: column;
+            background: var(--panel);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            gap: 10px;
+        }
+
+        .container { 
+            position: relative; 
+            z-index: 1; 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            padding: 20px 15px; 
+            display: none; 
+            justify-content: center; 
+            gap: 15px; 
+            flex-wrap: wrap;
+        }
+
+        .active-page { display: flex !important; }
+
+        .category-title { 
+            width: 100%; 
+            font-size: 20px; 
+            font-weight: bold; 
+            margin: 25px 0 15px; 
+            border-left: 5px solid var(--accent); 
+            padding-left: 12px; 
+            color: #fff; 
+        }
+
+        .case-card {
+            background: var(--panel); 
+            width: 150px; 
+            padding: 15px; 
+            border-radius: 12px;
+            text-align: center; 
+            border: 1px solid rgba(255,255,255,0.05); 
+            cursor: pointer; 
+            transition: 0.3s;
+            flex: 0 0 auto;
+        }
+
+        .case-card:hover { 
+            transform: translateY(-5px); 
+            border-color: var(--accent); 
+            box-shadow: 0 5px 15px rgba(0,212,255,0.2); 
+        }
+
+        .case-card .icon { 
+            font-size: 40px; 
+            margin-bottom: 8px; 
+            display: block; 
+        }
+
+        .case-card h3 { 
+            font-size: 16px; 
+            margin: 5px 0; 
+        }
+
+        .case-card p { 
+            font-size: 14px; 
+            color: var(--accent); 
+            margin: 0; 
+        }
+
+        #case-opener { 
+            flex-direction: column; 
+            text-align: center; 
+        }
+
+        .roulette-wrapper {
+            height: 120px; 
+            background: rgba(0,0,0,0.7); 
+            width: 100%; 
+            max-width: 700px; 
+            margin: 15px auto;
+            border-radius: 10px; 
+            overflow: hidden; 
+            position: relative; 
+            border: 1px solid #333;
+        }
+
+        .selector { 
+            position: absolute; 
+            left: 50%; 
+            top: 0; 
+            bottom: 0; 
+            width: 3px; 
+            background: var(--accent); 
+            z-index: 10; 
+            transform: translateX(-50%); 
+            box-shadow: 0 0 10px var(--accent); 
+        }
+
+        .tape { 
+            display: flex; 
+            position: absolute; 
+            left: 0; 
+            top: 0; 
+            height: 100%; 
+            transition: transform 5s cubic-bezier(0.15, 0, 0.05, 1); 
+        }
+
+        .item {
+            min-width: 100px; 
+            height: 120px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            border-bottom: 3px solid #555;
+            background: rgba(255,255,255,0.02); 
+            box-sizing: border-box;
+            font-size: 10px;
+        }
+
+        .item span { font-size: 35px; }
+
+        .inv-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); 
+            gap: 10px; 
+            width: 100%; 
+        }
+
+        .inv-item { 
+            background: var(--panel); 
+            padding: 10px; 
+            border-radius: 10px; 
+            text-align: center; 
+            border-bottom: 3px solid; 
+            cursor: pointer; 
+            transition: 0.2s; 
+            position: relative;
+            font-size: 12px;
+        }
+
+        .inv-item.selected { 
+            border: 2px solid white !important; 
+            background: rgba(0,212,255,0.1); 
+        }
+
+        .sell-btn-one { 
+            background: rgba(235, 75, 75, 0.2); 
+            color: #ff4b4b; 
+            border: 1px solid #ff4b4b; 
+            font-size: 10px; 
+            cursor: pointer; 
+            margin-top: 5px; 
+            width: 100%; 
+            border-radius: 4px; 
+            padding: 3px;
+        }
+
+        .upgrade-container { 
+            width: 100%; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 15px; 
+        }
+
+        .upgrade-side, .upgrade-center { 
+            background: var(--panel); 
+            padding: 15px; 
+            border-radius: 12px; 
+            border: 1px solid #333;
+        }
+
+        .upgrade-circle-wrapper { 
+            width: 200px; 
+            height: 200px; 
+            margin: 20px auto; 
+            position: relative; 
+            border-radius: 50%; 
+            background: #111; 
+            border: 6px solid #222; 
+            overflow: hidden; 
+        }
+
+        .upgrade-chance-sector { 
+            position: absolute; 
+            width: 100%; 
+            height: 100%; 
+            top: 0; 
+            left: 0; 
+            transform-origin: center; 
+            background: var(--accent); 
+            opacity: 0.3; 
+        }
+
+        .upgrade-arrow-pointer { 
+            position: absolute; 
+            top: 0; 
+            left: calc(50% - 1.5px); 
+            width: 3px; 
+            height: 45%; 
+            background: white; 
+            transform-origin: bottom center; 
+            z-index: 10; 
+            box-shadow: 0 0 10px white; 
+        }
+
+        .upgrade-text-inner { 
+            position: absolute; 
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); 
+            z-index: 11; 
+            font-size: 24px; 
+            font-weight: 900; 
+            color: white; 
+            text-shadow: 0 0 10px black; 
+        }
+
+        .promo-container { 
+            max-width: 100%; 
+            margin: 0 auto; 
+            text-align: center; 
+            padding: 0 10px; 
+        }
+
+        .promo-input {
+            width: 100%; 
+            max-width: 300px; 
+            padding: 12px; 
+            font-size: 15px; 
+            border-radius: 8px; 
+            border: 2px solid #333; 
+            background: rgba(255,255,255,0.05); 
+            color: white;
+            margin: 15px 0;
+            outline: none;
+        }
+
+        .promo-btn {
+            background: var(--accent); 
+            color: black; 
+            border: none; 
+            padding: 12px 24px; 
+            font-size: 16px; 
+            font-weight: bold;
+            border-radius: 8px; 
+            cursor: pointer;
+        }
+
+        .btn-main {
+            background: var(--accent); 
+            color: black; 
+            border: none; 
+            padding: 14px 20px; 
+            border-radius: 8px; 
+            font-size: 16px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            margin: 10px 0;
+            min-width: 150px;
+        }
+
+        .btn {
+            background: #1e232b; 
+            color: white; 
+            border: 1px solid #3a414d; 
+            padding: 10px 15px; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        #drop-notif { 
+            position: fixed; 
+            top: 80px; 
+            right: 20px; 
+            background: var(--accent); 
+            color: #000; 
+            padding: 12px 20px; 
+            border-radius: 6px; 
+            font-weight: bold; 
+            display: none; 
+            z-index: 1000; 
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .case-items-preview {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        .preview-box {
+            padding: 10px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            border: 2px solid;
+            text-align: center;
+            font-size: 11px;
+            width: 90px;
+            min-height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .preview-box span { font-size: 30px; }
+
+        @media (max-width: 768px) {
+            .hamburger { display: block; }
+            .nav-center { justify-content: center; }
+            .nav-mobile { display: flex; }
+            .header-right { right: 10px; top: 12px; font-size: 16px; }
+            .header-left, .header-right { font-size: 16px; }
+            .container { padding: 15px; }
+            .case-card { width: 130px; padding: 12px; }
+            .btn-main { font-size: 15px; padding: 12px 18px; }
+            .upgrade-circle-wrapper { width: 180px; height: 180px; }
+        }
+
+        @media (max-width: 480px) {
+            .header-left, .header-right { font-size: 15px; }
+            .case-card { width: 110px; padding: 10px; }
+            .preview-box { width: 80px; font-size: 10px; }
+            .inv-grid { grid-template-columns: repeat(2, 1fr); }
+            .btn-main { width: 100%; }
+            .header-right { right: 8px; font-size: 16px; padding: 4px 8px; }
+            #drop-notif { font-size: 13px; padding: 10px 16px; right: 10px; top: 70px; }
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="snow"></canvas>
+<div id="drop-notif"></div>
+
+<header>
+    <div class="header-left" onclick="showPage('home-page', document.getElementById('nav-home'))">❄️ DAMBAEV-CASE</div>
+
+    <div class="nav-center">
+        <div id="nav-home" class="nav-link active" onclick="showPage('home-page', this)">Главная</div>
+        <div id="nav-main" class="nav-link" onclick="showPage('main-page', this)">Кейсы</div>
+        <div id="nav-upgrade" class="nav-link" onclick="showPage('upgrade-page', this)">Апгрейд</div>
+        <div id="nav-inv" class="nav-link" onclick="showPage('inventory-page', this)">Инвентарь</div>
+        <div id="nav-promo" class="nav-link" onclick="showPage('promo-page', this)">Промокоды</div>
+    </div>
+
+    <div class="hamburger" onclick="toggleMenu()">≡</div>
+
+    <div class="header-right" id="balance">10000$</div>
+
+    <div class="nav-mobile" id="mobile-menu">
+        <div class="nav-link" onclick="showPage('home-page', this)">Главная</div>
+        <div class="nav-link" onclick="showPage('main-page', this)">Кейсы</div>
+        <div class="nav-link" onclick="showPage('upgrade-page', this)">Апгрейд</div>
+        <div class="nav-link" onclick="showPage('inventory-page', this)">Инвентарь</div>
+        <div class="nav-link" onclick="showPage('promo-page', this)">Промокоды</div>
+    </div>
+</header>
+
+<div id="home-page" class="container active-page">
+    <div style="text-align: center; width: 100%;">
+        <h2 style="color: var(--accent); font-size: 28px;">ДОБРО ПОЖАЛОВАТЬ</h2>
+        <p style="font-size: 16px; opacity: 0.7;">Открывай кейсы и улучшай скины</p>
+        <button class="btn-main" onclick="showPage('main-page', document.getElementById('nav-main'))">К КЕЙСАМ</button>
+    </div>
+</div>
+
+<div id="main-page" class="container">
+    <div class="category-title">Зимние кейсы</div>
+    <div class="case-card" onclick="prepCase('winter_1')"><span class="icon">🧊</span><h3>Снежок</h3><p>100$</p></div>
+    <div class="case-card" onclick="prepCase('winter_2')"><span class="icon">❄️</span><h3>Ледник</h3><p>300$</p></div>
+    <div class="case-card" onclick="prepCase('winter_3')"><span class="icon">🌨️</span><h3>Буран</h3><p>700$</p></div>
+
+    <div class="category-title">Оружие</div>
+    <div class="case-card" onclick="prepCase('gun_1')"><span class="icon">🔫</span><h3>Бюджетный</h3><p>250$</p></div>
+    <div class="case-card" onclick="prepCase('gun_2')"><span class="icon">🔫</span><h3>M4 Склад</h3><p>600$</p></div>
+    <div class="case-card" onclick="prepCase('gun_3')"><span class="icon">🔫</span><h3>AK Склад</h3><p>850$</p></div>
+    <div class="case-card" onclick="prepCase('gun_4')"><span class="icon">🎯</span><h3>AWP Дракон</h3><p>1500$</p></div>
+
+    <div class="category-title">Ножи</div>
+    <div class="case-card" onclick="prepCase('knife_1')"><span class="icon">🔪</span><h3>Ширпотреб</h3><p>2000$</p></div>
+    <div class="case-card" onclick="prepCase('knife_2')"><span class="icon">⚔️</span><h3>Армейский</h3><p>4500$</p></div>
+    <div class="case-card" onclick="prepCase('knife_3')"><span class="icon">👑</span><h3>Золотой Нож</h3><p>9000$</p></div>
+</div>
+
+<div id="case-opener" class="container">
+    <h2 id="case-title" style="width: 100%; font-size: 20px;">Кейс</h2>
+    <div id="roulette-area" style="width: 100%;"></div>
+    <div id="btns-area" style="width: 100%;"></div>
+    <div style="font-weight:bold; margin: 15px 0; color: #888; width: 100%; font-size: 14px;">СОДЕРЖИМОЕ:</div>
+    <div id="case-items-preview" class="case-items-preview"></div>
+    <button class="btn" onclick="showPage('main-page', document.getElementById('nav-main'))">Назад</button>
+</div>
+
+<div id="inventory-page" class="container">
+    <button class="btn" style="background:var(--red); width:100%;" onclick="sellAll()">ПРОДАТЬ ВСЁ</button>
+    <div id="inv-grid" class="inv-grid"></div>
+</div>
+
+<div id="upgrade-page" class="container">
+    <div class="upgrade-container">
+        <div class="upgrade-side">
+            <h3 style="text-align:center; font-size: 16px;">Твой предмет</h3>
+            <div id="upgrade-inv-list" class="inv-grid"></div>
+        </div>
+        <div class="upgrade-center">
+            <div class="upgrade-circle-wrapper">
+                <div id="up-sector" class="upgrade-chance-sector"></div>
+                <div id="up-arrow" class="upgrade-arrow-pointer"></div>
+                <div id="up-chance-text" class="upgrade-text-inner">0%</div>
+            </div>
+            <p style="font-size: 14px;">Награда: <b id="up-reward" style="color:var(--accent)">0$</b></p>
+            <div style="margin:10px 0;">
+                <button class="btn" onclick="setMult(1.5)">x1.5</button>
+                <button class="btn" onclick="setMult(2)">x2</button>
+                <button class="btn" onclick="setMult(5)">x5</button>
+                <button class="btn" onclick="setMult(10)">x10</button>
+            </div>
+            <button id="upgrade-btn" class="btn-main" onclick="startUpgrade()">УЛУЧШИТЬ</button>
+        </div>
+    </div>
+</div>
+
+<div id="promo-page" class="container">
+    <div class="promo-container">
+        <h2 style="color: var(--accent); font-size: 20px;">🎁 Промокод</h2>
+        <p style="opacity: 0.7; font-size: 14px;">Введите и получите деньги</p>
+        <input type="text" id="promo-input" class="promo-input" placeholder="Промокод...">
+        <button class="promo-btn" onclick="applyPromo()">Активировать</button>
+        <div style="margin-top: 20px; font-size: 12px; opacity: 0.5;">
+            <code style="color:var(--gold)">GIFT2026</code> — 1000$<br>
+            <code style="color:var(--gold)">FREEMONEY</code> — 2500$<br>
+            <code style="color:var(--gold)">DAMBAEVPRO</code> — 5000$
+        </div>
+    </div>
+</div>
+
+<script>
+    let balance = 10000;
+    let inventory = [];
+    let isSpinning = false;
+    let curK = '';
+    let selectedUpId = null;
+    let curMult = 2;
+
+    const skins_db = {
+        winter_1: { price: 100, items: [
+            {n:"USP | Лед", e:"🔫", r:"blue", p:40, ch:70},
+            {n:"АК | Снег", e:"🔫", r:"pink", p:800, ch:30}
+        ]},
+        winter_2: { price: 300, items: [
+            {n:"M4 | Иней", e:"🔫", r:"purple", p:400, ch:60},
+            {n:"Нож | Лед", e:"🔪", r:"gold", p:5000, ch:40}
+        ]},
+        winter_3: { price: 700, items: [
+            {n:"АК | Буран", e:"🔫", r:"pink", p:1200, ch:80},
+            {n:"AWP | Лед", e:"🔫", r:"red", p:2500, ch:20}
+        ]},
+        gun_1: { price: 250, items: [
+            {n:"Glock | Дух", e:"🔫", r:"blue", p:80, ch:60},
+            {n:"АК | Вулкан", e:"🔫", r:"pink", p:1200, ch:40}
+        ]},
+        gun_2: { price: 600, items: [
+            {n:"M4 | Азимов", e:"🔫", r:"pink", p:1100, ch:80},
+            {n:"M4 | Поток", e:"🔫", r:"red", p:2500, ch:20}
+        ]},
+        gun_3: { price: 850, items: [
+            {n:"АК | Уголь", e:"🔫", r:"pink", p:1200, ch:80},
+            {n:"АК | Змей", e:"🔫", r:"gold", p:15000, ch:20}
+        ]},
+        gun_4: { price: 1500, items: [
+            {n:"AWP | Гунгнир", e:"🔫", r:"red", p:8000, ch:90},
+            {n:"AWP | Дракон", e:"🔫", r:"gold", p:30000, ch:10}
+        ]},
+        knife_1: { price: 2000, items: [
+            {n:"Наваха", e:"🔪", r:"pink", p:1800, ch:90},
+            {n:"Бабочка", e:"🔪", r:"gold", p:12000, ch:10}
+        ]},
+        knife_2: { price: 4500, items: [
+            {n:"Керамбит", e:"🔪", r:"red", p:5000, ch:80},
+            {n:"М9 | Кровь", e:"🔪", r:"gold", p:15000, ch:20}
+        ]},
+        knife_3: { price: 9000, items: [
+            {n:"Золотой Нож", e:"🔪", r:"gold", p:50000, ch:100}
+        ]}
+    };
+
+    const promoCodes = {
+        "GIFT2026": 1000,
+        "FREEMONEY": 2500,
+        "DAMBAEVPRO": 5000
+    };
+    let usedPromos = JSON.parse(localStorage.getItem('usedPromos')) || [];
+
+    function updateBal() {
+        document.getElementById('balance').innerText = balance + '$';
+    }
+
+    function showPage(id, el) {
+        if (isSpinning) return;
+        document.querySelectorAll('.container').forEach(c => c.classList.remove('active-page'));
+        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+        const target = document.getElementById(id);
+        if (target) target.classList.add('active-page');
+        if (el) el.classList.add('active');
+        if (id === 'promo-page') document.getElementById('mobile-menu').style.display = 'none';
+
+        if (id === 'inventory-page') renderInv('inv-grid');
+        if (id === 'upgrade-page') { renderInv('upgrade-inv-list', true); updateUpUI(); }
+    }
+
+    function toggleMenu() {
+        const menu = document.getElementById('mobile-menu');
+        const btn = document.querySelector('.hamburger');
+        menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
+        btn.classList.toggle('active');
+    }
+
+    function prepCase(k) {
+        curK = k;
+        showPage('case-opener');
+        document.getElementById('case-title').innerText = k.replace('_', ' ').toUpperCase();
+        document.getElementById('roulette-area').innerHTML = '';
+        
+        const p = skins_db[k].price;
+        document.getElementById('btns-area').innerHTML = `
+            <button class="btn btn-main" onclick="startSpin(1)">x1 — ${p}$</button>
+            <button class="btn btn-main" onclick="startSpin(2)">x2 — ${p*2}$</button>
+            <button class="btn btn-main" onclick="startSpin(3)">x3 — ${p*3}$</button>
+        `;
+
+        const preview = document.getElementById('case-items-preview');
+        preview.innerHTML = '';
+
+        skins_db[k].items.forEach(item => {
+            const box = document.createElement('div');
+            box.className = 'preview-box';
+            box.style.borderColor = `var(--${item.r})`;
+            box.innerHTML = `
+                <span>${item.e}</span>
+                <div style="margin: 3px 0;">${item.n}</div>
+                <b>${item.p}$</b>
+            `;
+            preview.appendChild(box);
+        });
+    }
+
+    function startSpin(c) {
+        const price = skins_db[curK].price * c;
+        if (balance < price || isSpinning) return;
+
+        balance -= price;
+        updateBal();
+        isSpinning = true;
+
+        const area = document.getElementById('roulette-area');
+        area.innerHTML = '<div class="roulette-wrapper"><div class="selector"></div><div class="tape" id="tape"></div></div>';
+        const tape = document.getElementById('tape');
+        const totalItems = 50 + c * 10;
+        const winIndex = 40 + Math.floor(Math.random() * 10);
+
+        for (let j = 0; j < totalItems; j++) {
+            const item = getRnd(skins_db[curK].items);
+            tape.innerHTML += `<div class="item ${item.r}"><span>${item.e}</span><small>${item.n}</small></div>`;
+        }
+
+        setTimeout(() => {
+            tape.style.transform = `translateX(-${(winIndex * 100) - 250}px)`;
+        }, 100);
+
+        setTimeout(() => {
+            const results = [];
+            for (let i = 0; i < c; i++) {
+                const item = getRnd(skins_db[curK].items);
+                inventory.push({ ...item, id: Math.random() });
+                results.push(item.n);
+            }
+
+            if (c === 1) {
+                showNotif(`Выпало: ${results[0]}`);
+            } else {
+                showNotif(`x${c} кейсов: ${results.slice(0, 2).join(', ')}${results.length > 2 ? ' + ещё ' + (results.length - 2) : ''}`);
+            }
+
+            if (document.getElementById('inventory-page').classList.contains('active-page')) {
+                renderInv('inv-grid');
+            }
+
+            isSpinning = false;
+        }, 5200);
+    }
+
+    function getRnd(arr) {
+        let r = Math.random() * 100;
+        let total = 0;
+        for (let item of arr) {
+            total += item.ch;
+            if (r <= total) return item;
+        }
+        return arr[0];
+    }
+
+    function renderInv(targetId, sel = false) {
+        const container = document.getElementById(targetId);
+        if (!container) return;
+        container.innerHTML = inventory.length ? inventory.map(i => `
+            <div class="inv-item ${selectedUpId === i.id ? 'selected' : ''}" style="border-color:var(--${i.r})" onclick="${sel ? `selUp(${i.id})` : ''}">
+                <span>${i.e}</span><br><small>${i.n}</small><br><b>${i.p}$</b>
+                ${!sel ? `<button class="sell-btn-one" onclick="sellOne(${i.id})">Продать</button>` : ''}
+            </div>
+        `).join('') : 'Пусто';
+    }
+
+    function sellOne(id) {
+        const idx = inventory.findIndex(i => i.id === id);
+        if (idx === -1) return;
+        balance += inventory[idx].p;
+        inventory.splice(idx, 1);
+        updateBal();
+        renderInv('inv-grid');
+    }
+
+    function sellAll() {
+        inventory.forEach(i => balance += i.p);
+        inventory = [];
+        updateBal();
+        renderInv('inv-grid');
+    }
+
+    function showNotif(text) {
+        const notif = document.getElementById('drop-notif');
+        notif.innerText = text;
+        notif.style.display = 'block';
+        setTimeout(() => notif.style.display = 'none', 3000);
+    }
+
+    function selUp(id) {
+        selectedUpId = id;
+        renderInv('upgrade-inv-list', true);
+        updateUpUI();
+    }
+
+    function setMult(m) {
+        curMult = m;
+        updateUpUI();
+    }
+
+    function updateUpUI() {
+        if (!selectedUpId) return;
+        const item = inventory.find(i => i.id === selectedUpId);
+        const chance = (100 / curMult).toFixed(1);
+        document.getElementById('up-chance-text').innerText = chance + '%';
+        document.getElementById('up-reward').innerText = (item.p * curMult).toFixed(0) + '$';
+        const angle = (chance / 100) * 360;
+        document.getElementById('up-sector').style.background = `conic-gradient(var(--accent) ${angle}deg, transparent 0deg)`;
+    }
+
+    function startUpgrade() {
+        if (!selectedUpId || isSpinning) return;
+        const item = inventory.find(i => i.id === selectedUpId);
+        const reward = item.p * curMult;
+        isSpinning = true;
+        const arrow = document.getElementById('up-arrow');
+        const rot = 1800 + Math.random() * 360;
+        arrow.style.transition = 'transform 3s cubic-bezier(0.15, 0, 0.05, 1)';
+        arrow.style.transform = `rotate(${rot}deg)`;
+
+        setTimeout(() => {
+            const finalAngle = rot % 360;
+            const winAngle = (100 / curMult / 100) * 360;
+            if (finalAngle <= winAngle) {
+                showNotif("УСПЕХ! +" + reward.toFixed(0) + "$");
+                balance += reward;
+            } else {
+                showNotif("НЕУДАЧА!");
+            }
+            inventory = inventory.filter(i => i.id !== selectedUpId);
+            selectedUpId = null;
+            isSpinning = false;
+            arrow.style.transition = 'none';
+            arrow.style.transform = 'rotate(0deg)';
+            updateBal();
+            renderInv('upgrade-inv-list', true);
+            updateUpUI();
+        }, 3100);
+    }
+
+        function applyPromo() {
+        const input = document.getElementById('promo-input');
+        const code = input.value.trim().toUpperCase();
+
+        if (!code) {
+            showNotif("Введите промокод!");
+            return;
+        }
+
+        if (!promoCodes[code]) {
+            showNotif("❌ Неверный промокод!");
+            return;
+        }
+
+        if (usedPromos.includes(code)) {
+            showNotif("🔄 Уже использован!");
+            return;
+        }
+
+        const amount = promoCodes[code];
+        balance += amount;
+        usedPromos.push(code);
+        localStorage.setItem('usedPromos', JSON.stringify(usedPromos));
+        updateBal();
+        showNotif(`✅ +${amount}$ за промокод!`);
+        input.value = '';
+    }
+
+    // Снег
+    const canvas = document.getElementById('snow');
+    const ctx = canvas.getContext('2d');
+    let pts = [];
+    function res() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    window.onresize = res; res();
+    for (let i = 0; i < 70; i++) {
+        pts.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, r: Math.random() * 3 + 1 });
+    }
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "white";
+        ctx.beginPath();
+        for (let p of pts) {
+            ctx.moveTo(p.x, p.y);
+            ctx.arc(p.x, p.y, p.r, 0, 7);
+            p.y += p.r * 0.5;
+            if (p.y > canvas.height) p.y = -10;
+        }
+        ctx.fill();
+        requestAnimationFrame(draw);
+    }
+    draw();
+    updateBal();
+</script>
+</body>
+</html>

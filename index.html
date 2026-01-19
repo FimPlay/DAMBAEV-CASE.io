@@ -473,17 +473,18 @@
 
 <div id="home-page" class="container active-page">
     <div style="text-align: center; width: 100%;">
-        <h2 style="color: var(--accent); font-size: 28px;">ДОБРО ПОЖАЛОВАТЬ</h2>
+        <h2 style="color: var(--accent); font-size: 28px;">ДОБРО ПОЖАЛОВАТЬ В DAMBAEV-CASE</h2>
         <p style="font-size: 16px; opacity: 0.7;">Открывай кейсы и улучшай скины</p>
+               <p style="font-size: 12px; opacity: 0.7;">DAMBAEV-CASE У НАС ЛУЧШЕ!!!</p>
         <button class="btn-main" onclick="showPage('main-page', document.getElementById('nav-main'))">К КЕЙСАМ</button>
     </div>
 </div>
 
 <div id="main-page" class="container">
     <div class="category-title">Зимние кейсы</div>
-    <div class="case-card" onclick="prepCase('winter_1')"><span class="icon">🧊</span><h3>Снежок</h3><p>100$</p></div>
-    <div class="case-card" onclick="prepCase('winter_2')"><span class="icon">❄️</span><h3>Ледник</h3><p>300$</p></div>
-    <div class="case-card" onclick="prepCase('winter_3')"><span class="icon">🌨️</span><h3>Буран</h3><p>700$</p></div>
+    <div class="case-card" onclick="prepCase('winter_1')"><span class="icon">🧊</span><h3>Снежный Алдар</h3><p>100$</p></div>
+    <div class="case-card" onclick="prepCase('winter_2')"><span class="icon">❄️</span><h3>Снежный NatanOsant</h3><p>300$</p></div>
+    <div class="case-card" onclick="prepCase('winter_3')"><span class="icon">🌨️</span><h3>Снежный Тхор</h3><p>700$</p></div>
 
     <div class="category-title">Оружие</div>
     <div class="case-card" onclick="prepCase('gun_1')"><span class="icon">🔫</span><h3>Бюджетный</h3><p>250$</p></div>
@@ -537,7 +538,7 @@
 
 <div id="promo-page" class="container">
     <div class="promo-container">
-        <h2 style="color: var(--accent); font-size: 20px;">🎁 Промокод</h2>
+        <h2 style="color: var(--accent); font-size: 20px;">🎁 Промокоды 🎁</h2>
         <p style="opacity: 0.7; font-size: 14px;">Введите и получите деньги</p>
         <input type="text" id="promo-input" class="promo-input" placeholder="Промокод...">
         <button class="promo-btn" onclick="applyPromo()">Активировать</button>
@@ -559,8 +560,9 @@
 
     const skins_db = {
         winter_1: { price: 100, items: [
-            {n:"USP | Лед", e:"🔫", r:"blue", p:40, ch:70},
-            {n:"АК | Снег", e:"🔫", r:"pink", p:800, ch:30}
+            {n:"USP | Лед", e:"🔫", r:"blue", p:40, ch:40},
+            {n:"АК | Снег", e:"🔫", r:"pink", p:800, ch:20},
+            {n:"ХУЙ-НАТАНА", e:"♾️", r:"pink", p:8000, ch:40}
         ]},
         winter_2: { price: 300, items: [
             {n:"M4 | Иней", e:"🔫", r:"purple", p:400, ch:60},
@@ -595,14 +597,16 @@
             {n:"М9 | Кровь", e:"🔪", r:"gold", p:15000, ch:20}
         ]},
         knife_3: { price: 9000, items: [
-            {n:"Золотой Нож", e:"🔪", r:"gold", p:50000, ch:100}
+            {n:"Золотой Нож", e:"🔪", r:"gold", p:50000, ch:30},
+            {n:"Керамбитик", e:"🔪", r:"red", p:555, ch:80}
         ]}
     };
 
     const promoCodes = {
         "GIFT2026": 1000,
         "FREEMONEY": 2500,
-        "DAMBAEVPRO": 5000
+        "DAMBAEVPRO": 5000,
+        "VOVA-THOR": 444
     };
     let usedPromos = JSON.parse(localStorage.getItem('usedPromos')) || [];
 
@@ -635,7 +639,7 @@
         showPage('case-opener');
         document.getElementById('case-title').innerText = k.replace('_', ' ').toUpperCase();
         document.getElementById('roulette-area').innerHTML = '';
-        
+
         const p = skins_db[k].price;
         document.getElementById('btns-area').innerHTML = `
             <button class="btn btn-main" onclick="startSpin(1)">x1 — ${p}$</button>
@@ -854,4 +858,3 @@
 </script>
 </body>
 </html>
-

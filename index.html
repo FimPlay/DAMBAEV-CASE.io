@@ -21,7 +21,32 @@
             touch-action: manipulation; 
         }
 
-        #snow { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 0; }
+        /* СНЕГ — покрывает весь экран */
+        #snow { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100vw; 
+            height: 100vh; 
+            pointer-events: none; 
+            z-index: 0; 
+            background: transparent; 
+        }
+
+        #drop-notif { 
+            position: fixed; 
+            top: 60px; 
+            right: 15px; 
+            background: var(--accent); 
+            color: #000; 
+            padding: 10px 16px; 
+            border-radius: 6px; 
+            font-weight: bold; 
+            display: none; 
+            z-index: 1000; 
+            font-size: 13px;
+            box-shadow: 0 0 10px rgba(0,212,255,0.4);
+        }
 
         /* ВЕРХНЯЯ ПАНЕЛЬ */
         header {
@@ -30,44 +55,54 @@
             backdrop-filter: blur(10px);
             padding: 9px 10px; 
             display: flex; 
-            justify-content: flex-start; 
             align-items: center;
             border-bottom: 1px solid rgba(255,255,255,0.1); 
             position: sticky; 
             top: 0; 
             z-index: 100;
-            flex-wrap: wrap;
-            gap: 8px;
             height: 50px;
             box-sizing: border-box;
+            justify-content: flex-start;
         }
 
+        /* ЛОГОТИП */
         .header-left { 
             font-weight: 900; 
             font-size: 16px; 
             color: var(--accent); 
             cursor: pointer; 
-            padding: 0 8px 0 12px; 
+            padding: 0 8px; 
             flex: 0 0 auto;
         }
 
+        /* БАЛАНС */
         .header-right { 
             font-size: 16px; 
             font-weight: bold; 
             color: var(--accent); 
-            position: absolute; 
-            right: 12px; 
-            top: 9px; 
-            z-index: 10;
             background: var(--panel);
             padding: 4px 8px;
             border-radius: 6px;
-            box-shadow: 0 0 8px rgba(0,0,0,0.2);
             min-width: 70px;
             text-align: center;
+            box-shadow: 0 0 8px rgba(0,0,0,0.2);
+            z-index: 10;
         }
 
-        /* ДЕСКТОП-МЕНЮ (ПК) */
+        /* ГАМБУРГЕР (только на телефоне) */
+        .hamburger {
+            font-size: 22px;
+            cursor: pointer;
+            background: rgba(0,212,255,0.15);
+            color: white;
+            padding: 6px 10px;
+            border-radius: 6px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 11;
+            display: none;
+        }
+
+        /* ДЕСКТОП-МЕНЮ */
         .nav-center {
             display: flex;
             gap: 10px;
@@ -94,24 +129,7 @@
             background: rgba(0,212,255,0.1);
         }
 
-        /* ГАМБУРГЕР (ТОЛЬКО ДЛЯ ТЕЛЕФОНА) */
-        .hamburger {
-            display: none;
-            font-size: 22px;
-            cursor: pointer;
-            background: rgba(0,212,255,0.15);
-            color: white;
-            padding: 6px 10px;
-            border-radius: 6px;
-            position: absolute;
-            left: 110px;
-            top: 10px;
-            z-index: 11;
-            transition: 0.2s;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-
-        /* МОБИЛЬНОЕ МЕНЮ (ПОЯВЛЯЕТСЯ ПРИ КЛИКЕ) */
+        /* МОБИЛЬНОЕ МЕНЮ */
         .nav-mobile {
             display: none;
             position: fixed;
@@ -170,6 +188,7 @@
             color: #fff; 
         }
 
+        /* КЕЙСЫ */
         .case-card {
             background: var(--panel); 
             width: 150px; 
@@ -205,6 +224,7 @@
             margin: 0; 
         }
 
+        /* РУЛЕТКА */
         #case-opener { flex-direction: column; text-align: center; }
 
         .roulette-wrapper {
@@ -251,10 +271,20 @@
             background: rgba(255,255,255,0.02); 
             box-sizing: border-box;
             font-size: 10px;
+            color: white;
+            text-align: center;
+            padding: 4px;
         }
+
+        .item.blue { border-bottom-color: var(--blue); background: rgba(75, 105, 255, 0.1); color: var(--blue); }
+        .item.purple { border-bottom-color: var(--purple); background: rgba(136, 71, 255, 0.1); color: var(--purple); }
+        .item.pink { border-bottom-color: var(--pink); background: rgba(211, 46, 230, 0.1); color: var(--pink); }
+        .item.red { border-bottom-color: var(--red); background: rgba(235, 75, 75, 0.1); color: var(--red); }
+        .item.gold { border-bottom-color: var(--gold); background: rgba(255, 183, 0, 0.15); color: var(--gold); box-shadow: 0 0 8px rgba(255, 183, 0, 0.4); }
 
         .item span { font-size: 35px; }
 
+        /* ИНВЕНТАРЬ */
         .inv-grid { 
             display: grid; 
             grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); 
@@ -291,6 +321,7 @@
             padding: 3px;
         }
 
+        /* АПГРЕЙД */
         .upgrade-container { 
             width: 100%; 
             display: flex; 
@@ -351,6 +382,7 @@
             text-shadow: 0 0 10px black; 
         }
 
+        /* ПРОМОКОДЫ */
         .promo-container { 
             max-width: 100%; 
             margin: 0 auto; 
@@ -406,20 +438,6 @@
             font-size: 14px;
         }
 
-        #drop-notif { 
-            position: fixed; 
-            top: 60px; 
-            right: 15px; 
-            background: var(--accent); 
-            color: #000; 
-            padding: 10px 16px; 
-            border-radius: 6px; 
-            font-weight: bold; 
-            display: none; 
-            z-index: 1000; 
-            font-size: 13px;
-        }
-
         .case-items-preview {
             display: flex;
             flex-wrap: wrap;
@@ -447,19 +465,76 @@
 
         .preview-box span { font-size: 30px; }
 
-        /* АДАПТИВ: ТОЛЬКО НА ТЕЛЕФОНЕ */
+        /* АДАПТИВ ПОД ТЕЛЕФОН */
         @media (max-width: 768px) {
-            .nav-center { display: none; } /* Скрываем десктоп-меню */
-            .hamburger { display: block; } /* Показываем гамбургер */
-            .header-right { right: 10px; }
-            .hamburger { left: 100px; }
+            header {
+                justify-content: flex-start;
+                position: relative;
+            }
+
+            .header-left {
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                margin: 0;
+                z-index: 9;
+                background: var(--panel);
+                padding: 0 12px;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            }
+
+            .hamburger {
+                display: block;
+                position: absolute;
+                left: 12px;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+            .header-right {
+                position: absolute;
+                right: 12px;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+            .nav-center { display: none; }
+
+            .case-card {
+                width: calc(50% - 8px);
+                max-width: 150px;
+                padding: 12px;
+                margin: 0;
+                box-sizing: border-box;
+            }
+            .case-card .icon { font-size: 36px; }
+            .case-card h3 { font-size: 15px; }
+            .case-card p { font-size: 13px; }
+
+            #main-page {
+                justify-content: center;
+                gap: 12px;
+            }
         }
 
         @media (max-width: 480px) {
-            .hamburger { left: 95px; font-size: 20px; }
-            .header-left { font-size: 15px; }
-            .header-right { font-size: 14px; }
+            .header-left { font-size: 15px; padding: 0 10px; }
+            .hamburger { left: 10px; font-size: 20px; padding: 5px 8px; }
+            .header-right { right: 10px; font-size: 14px; padding: 3px 6px; }
+            .case-card { width: calc(50% - 6px); padding: 10px; }
+            .case-card h3 { font-size: 14px; }
             .btn-main { width: 100%; }
+        }
+
+        /* БАЛАНС НА ПК — В ПРАВОМ ВЕРХНЕМ УГЛУ */
+        @media (min-width: 769px) {
+            .header-right {
+                position: absolute;
+                right: 12px;
+                top: 9px;
+            }
         }
     </style>
 </head>
@@ -468,11 +543,12 @@
 <canvas id="snow"></canvas>
 <div id="drop-notif"></div>
 
-<!-- ВЕРХНЯЯ ПАНЕЛЬ -->
+<!-- ШАПКА -->
 <header>
     <div class="header-left" onclick="goToPage('home-page', document.getElementById('nav-home'))">❄️ DAMBAEV</div>
+    <div class="header-right" id="balance">10000$</div>
+    <div class="hamburger" onclick="toggleMobileMenu()">☰</div>
 
-    <!-- Десктоп-меню (видно только на ПК) -->
     <div class="nav-center">
         <div id="nav-home" class="nav-link active" onclick="goToPage('home-page', this)">Главная</div>
         <div id="nav-main" class="nav-link" onclick="goToPage('main-page', this)">Кейсы</div>
@@ -481,13 +557,6 @@
         <div id="nav-promo" class="nav-link" onclick="goToPage('promo-page', this)">Промокоды</div>
     </div>
 
-    <!-- Баланс -->
-    <div class="header-right" id="balance">10000$</div>
-
-    <!-- Гамбургер (только на телефоне) -->
-    <div class="hamburger" onclick="toggleMobileMenu()">☰</div>
-
-    <!-- Мобильное меню -->
     <div class="nav-mobile" id="mobile-menu">
         <div class="nav-link-mobile" onclick="goToPage('home-page', this)">Главная</div>
         <div class="nav-link-mobile" onclick="goToPage('main-page', this)">Кейсы</div>
@@ -654,6 +723,9 @@
         if (el && el.classList.contains('nav-link')) {
             el.classList.add('active');
         }
+        if (el && el.classList.contains('nav-link-mobile')) {
+            el.classList.add('active');
+        }
 
         if (id === 'inventory-page') renderInv('inv-grid');
         if (id === 'upgrade-page') { renderInv('upgrade-inv-list', true); updateUpUI(); }
@@ -717,8 +789,16 @@
 
         for (let j = 0; j < totalItems; j++) {
             const item = getRnd(skins_db[curK].items);
-            tape.innerHTML += `<div class="item ${item.r}"><span>${item.e}</span><small>${item.n}</small></div>`;
+            tape.innerHTML += `
+                <div class="item ${item.r}">
+                    <span>${item.e}</span>
+                    <small>${item.n}</small>
+                </div>`;
         }
+
+        setTimeout(() => {
+            tape.style.transform = `translateX(-${(winIndex * 100) - 250}px)`;
+        }, 100);
 
         setTimeout(() => {
             tape.style.transform = `translateX(-${(winIndex * 100) - 250}px)`;
@@ -869,29 +949,43 @@
         input.value = '';
     }
 
-    // АНИМИРОВАННЫЙ СНЕЖОК
+    // СНЕЖИНКИ — плавно, на всех экранах
     const canvas = document.getElementById('snow');
     const ctx = canvas.getContext('2d');
     let pts = [];
-    function res() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-    window.onresize = res; res();
-    for (let i = 0; i < 70; i++) {
-        pts.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, r: Math.random() * 3 + 1 });
+    function res() { 
+        canvas.width = window.innerWidth; 
+        canvas.height = window.innerHeight; 
     }
-    function draw() {
+    window.addEventListener('resize', res);
+    res();
+
+    for (let i = 0; i < 70; i++) {
+        pts.push({ 
+            x: Math.random() * canvas.width, 
+            y: Math.random() * canvas.height, 
+            r: Math.random() * 3 + 1,
+            speed: Math.random() * 1 + 0.5
+        });
+    }
+
+    function drawSnow() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = "white";
+        ctx.fillStyle = "rgba(255, 255, 255, 0.9)";
         ctx.beginPath();
         for (let p of pts) {
             ctx.moveTo(p.x, p.y);
-            ctx.arc(p.x, p.y, p.r, 0, 7);
-            p.y += p.r * 0.5;
-            if (p.y > canvas.height) p.y = -10;
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            p.y += p.speed;
+            if (p.y > canvas.height) {
+                p.y = -10;
+                p.x = Math.random() * canvas.width;
+            }
         }
         ctx.fill();
-        requestAnimationFrame(draw);
+        requestAnimationFrame(drawSnow);
     }
-    draw();
+    drawSnow();
     updateBal();
 </script>
 </body>

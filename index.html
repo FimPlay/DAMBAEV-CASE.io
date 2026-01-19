@@ -23,11 +23,12 @@
 
         #snow { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 0; }
 
+        /* ВЕРХНЯЯ ПАНЕЛЬ */
         header {
             width: 100%; 
             background: var(--panel); 
             backdrop-filter: blur(10px);
-            padding: 12px 10px; 
+            padding: 9px 10px; 
             display: flex; 
             justify-content: flex-start; 
             align-items: center;
@@ -36,37 +37,40 @@
             top: 0; 
             z-index: 100;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 8px;
+            height: 50px;
+            box-sizing: border-box;
         }
 
         .header-left { 
             font-weight: 900; 
-            font-size: 18px; 
+            font-size: 16px; 
             color: var(--accent); 
             cursor: pointer; 
-            padding: 0 10px 0 15px; 
+            padding: 0 8px 0 12px; 
             flex: 0 0 auto;
         }
 
         .header-right { 
-            font-size: 18px; 
+            font-size: 16px; 
             font-weight: bold; 
             color: var(--accent); 
             position: absolute; 
-            right: 15px; 
-            top: 16px; 
+            right: 12px; 
+            top: 9px; 
             z-index: 10;
             background: var(--panel);
-            padding: 5px 10px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.2);
-            min-width: 80px;
+            padding: 4px 8px;
+            border-radius: 6px;
+            box-shadow: 0 0 8px rgba(0,0,0,0.2);
+            min-width: 70px;
             text-align: center;
         }
 
-        .nav-center { 
-            display: flex; 
-            gap: 10px; 
+        /* ДЕСКТОП-МЕНЮ (ПК) */
+        .nav-center {
+            display: flex;
+            gap: 10px;
             font-size: 12px;
             flex-wrap: wrap;
             margin: 0 10px;
@@ -74,46 +78,74 @@
             justify-content: center;
         }
 
-        .nav-link { 
-            cursor: pointer; 
-            font-weight: bold; 
-            text-transform: uppercase; 
-            opacity: 0.6; 
-            transition: 0.3s; 
+        .nav-link {
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+            opacity: 0.6;
+            transition: 0.3s;
             padding: 5px 10px;
             border-radius: 6px;
         }
 
-        .nav-link:hover, .nav-link.active { 
-            opacity: 1; 
-            color: var(--accent); 
+        .nav-link:hover, .nav-link.active {
+            opacity: 1;
+            color: var(--accent);
             background: rgba(0,212,255,0.1);
         }
 
+        /* ГАМБУРГЕР (ТОЛЬКО ДЛЯ ТЕЛЕФОНА) */
         .hamburger {
             display: none;
-            font-size: 24px;
+            font-size: 22px;
             cursor: pointer;
-            background: rgba(0,212,255,0.1);
-            padding: 5px 10px;
+            background: rgba(0,212,255,0.15);
+            color: white;
+            padding: 6px 10px;
             border-radius: 6px;
+            position: absolute;
+            left: 110px;
+            top: 10px;
+            z-index: 11;
+            transition: 0.2s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
 
-        .hamburger.active {
-            background: var(--accent);
-            color: black;
-        }
-
+        /* МОБИЛЬНОЕ МЕНЮ (ПОЯВЛЯЕТСЯ ПРИ КЛИКЕ) */
         .nav-mobile {
             display: none;
-            flex-direction: column;
+            position: fixed;
+            top: 50px;
+            left: 0;
+            right: 0;
             background: var(--panel);
-            padding: 15px;
-            border-radius: 10px;
-            margin: 10px 0;
-            gap: 10px;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            z-index: 99;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            flex-direction: column;
+            gap: 8px;
         }
 
+        .nav-link-mobile {
+            display: block;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: white;
+            opacity: 0.7;
+            text-align: center;
+        }
+
+        .nav-link-mobile:hover,
+        .nav-link-mobile.active {
+            opacity: 1;
+            color: var(--accent);
+            background: rgba(0,212,255,0.1);
+        }
+
+        /* КОНТЕЙНЕРЫ */
         .container { 
             position: relative; 
             z-index: 1; 
@@ -173,10 +205,7 @@
             margin: 0; 
         }
 
-        #case-opener { 
-            flex-direction: column; 
-            text-align: center; 
-        }
+        #case-opener { flex-direction: column; text-align: center; }
 
         .roulette-wrapper {
             height: 120px; 
@@ -379,17 +408,16 @@
 
         #drop-notif { 
             position: fixed; 
-            top: 80px; 
-            right: 20px; 
+            top: 60px; 
+            right: 15px; 
             background: var(--accent); 
             color: #000; 
-            padding: 12px 20px; 
+            padding: 10px 16px; 
             border-radius: 6px; 
             font-weight: bold; 
             display: none; 
             z-index: 1000; 
-            font-size: 14px;
-            white-space: nowrap;
+            font-size: 13px;
         }
 
         .case-items-preview {
@@ -419,26 +447,19 @@
 
         .preview-box span { font-size: 30px; }
 
+        /* АДАПТИВ: ТОЛЬКО НА ТЕЛЕФОНЕ */
         @media (max-width: 768px) {
-            .hamburger { display: block; }
-            .nav-center { justify-content: center; }
-            .nav-mobile { display: flex; }
-            .header-right { right: 10px; top: 12px; font-size: 16px; }
-            .header-left, .header-right { font-size: 16px; }
-            .container { padding: 15px; }
-            .case-card { width: 130px; padding: 12px; }
-            .btn-main { font-size: 15px; padding: 12px 18px; }
-            .upgrade-circle-wrapper { width: 180px; height: 180px; }
+            .nav-center { display: none; } /* Скрываем десктоп-меню */
+            .hamburger { display: block; } /* Показываем гамбургер */
+            .header-right { right: 10px; }
+            .hamburger { left: 100px; }
         }
 
         @media (max-width: 480px) {
-            .header-left, .header-right { font-size: 15px; }
-            .case-card { width: 110px; padding: 10px; }
-            .preview-box { width: 80px; font-size: 10px; }
-            .inv-grid { grid-template-columns: repeat(2, 1fr); }
+            .hamburger { left: 95px; font-size: 20px; }
+            .header-left { font-size: 15px; }
+            .header-right { font-size: 14px; }
             .btn-main { width: 100%; }
-            .header-right { right: 8px; font-size: 16px; padding: 4px 8px; }
-            #drop-notif { font-size: 13px; padding: 10px 16px; right: 10px; top: 70px; }
         }
     </style>
 </head>
@@ -447,44 +468,50 @@
 <canvas id="snow"></canvas>
 <div id="drop-notif"></div>
 
+<!-- ВЕРХНЯЯ ПАНЕЛЬ -->
 <header>
-    <div class="header-left" onclick="showPage('home-page', document.getElementById('nav-home'))">❄️ DAMBAEV-CASE</div>
+    <div class="header-left" onclick="goToPage('home-page', document.getElementById('nav-home'))">❄️ DAMBAEV</div>
 
+    <!-- Десктоп-меню (видно только на ПК) -->
     <div class="nav-center">
-        <div id="nav-home" class="nav-link active" onclick="showPage('home-page', this)">Главная</div>
-        <div id="nav-main" class="nav-link" onclick="showPage('main-page', this)">Кейсы</div>
-        <div id="nav-upgrade" class="nav-link" onclick="showPage('upgrade-page', this)">Апгрейд</div>
-        <div id="nav-inv" class="nav-link" onclick="showPage('inventory-page', this)">Инвентарь</div>
-        <div id="nav-promo" class="nav-link" onclick="showPage('promo-page', this)">Промокоды</div>
+        <div id="nav-home" class="nav-link active" onclick="goToPage('home-page', this)">Главная</div>
+        <div id="nav-main" class="nav-link" onclick="goToPage('main-page', this)">Кейсы</div>
+        <div id="nav-upgrade" class="nav-link" onclick="goToPage('upgrade-page', this)">Апгрейд</div>
+        <div id="nav-inv" class="nav-link" onclick="goToPage('inventory-page', this)">Инвентарь</div>
+        <div id="nav-promo" class="nav-link" onclick="goToPage('promo-page', this)">Промокоды</div>
     </div>
 
-    <div class="hamburger" onclick="toggleMenu()">≡</div>
-
+    <!-- Баланс -->
     <div class="header-right" id="balance">10000$</div>
 
+    <!-- Гамбургер (только на телефоне) -->
+    <div class="hamburger" onclick="toggleMobileMenu()">☰</div>
+
+    <!-- Мобильное меню -->
     <div class="nav-mobile" id="mobile-menu">
-        <div class="nav-link" onclick="showPage('home-page', this)">Главная</div>
-        <div class="nav-link" onclick="showPage('main-page', this)">Кейсы</div>
-        <div class="nav-link" onclick="showPage('upgrade-page', this)">Апгрейд</div>
-        <div class="nav-link" onclick="showPage('inventory-page', this)">Инвентарь</div>
-        <div class="nav-link" onclick="showPage('promo-page', this)">Промокоды</div>
+        <div class="nav-link-mobile" onclick="goToPage('home-page', this)">Главная</div>
+        <div class="nav-link-mobile" onclick="goToPage('main-page', this)">Кейсы</div>
+        <div class="nav-link-mobile" onclick="goToPage('upgrade-page', this)">Апгрейд</div>
+        <div class="nav-link-mobile" onclick="goToPage('inventory-page', this)">Инвентарь</div>
+        <div class="nav-link-mobile" onclick="goToPage('promo-page', this)">Промокоды</div>
     </div>
 </header>
 
+<!-- ГЛАВНАЯ -->
 <div id="home-page" class="container active-page">
     <div style="text-align: center; width: 100%;">
-        <h2 style="color: var(--accent); font-size: 28px;">ДОБРО ПОЖАЛОВАТЬ В DAMBAEV-CASE</h2>
-        <p style="font-size: 16px; opacity: 0.7;">Открывай кейсы и улучшай скины</p>
-               <p style="font-size: 12px; opacity: 0.7;">DAMBAEV-CASE У НАС ЛУЧШЕ!!!</p>
-        <button class="btn-main" onclick="showPage('main-page', document.getElementById('nav-main'))">К КЕЙСАМ</button>
+        <h2 style="color: var(--accent); font-size: 24px;">ДОБРО ПОЖАЛОВАТЬ</h2>
+        <p style="font-size: 14px; opacity: 0.7;">Открывай кейсы и улучшай скины</p>
+        <button class="btn-main" onclick="goToPage('main-page')">К КЕЙСАМ</button>
     </div>
 </div>
 
+<!-- КЕЙСЫ -->
 <div id="main-page" class="container">
     <div class="category-title">Зимние кейсы</div>
-    <div class="case-card" onclick="prepCase('winter_1')"><span class="icon">🧊</span><h3>Снежный Алдар</h3><p>100$</p></div>
-    <div class="case-card" onclick="prepCase('winter_2')"><span class="icon">❄️</span><h3>Снежный NatanOsant</h3><p>300$</p></div>
-    <div class="case-card" onclick="prepCase('winter_3')"><span class="icon">🌨️</span><h3>Снежный Тхор</h3><p>700$</p></div>
+    <div class="case-card" onclick="prepCase('winter_1')"><span class="icon">🧊</span><h3>Снежок</h3><p>100$</p></div>
+    <div class="case-card" onclick="prepCase('winter_2')"><span class="icon">❄️</span><h3>Ледник</h3><p>300$</p></div>
+    <div class="case-card" onclick="prepCase('winter_3')"><span class="icon">🌨️</span><h3>Буран</h3><p>700$</p></div>
 
     <div class="category-title">Оружие</div>
     <div class="case-card" onclick="prepCase('gun_1')"><span class="icon">🔫</span><h3>Бюджетный</h3><p>250$</p></div>
@@ -498,20 +525,23 @@
     <div class="case-card" onclick="prepCase('knife_3')"><span class="icon">👑</span><h3>Золотой Нож</h3><p>9000$</p></div>
 </div>
 
+<!-- ОТКРЫТИЕ КЕЙСА -->
 <div id="case-opener" class="container">
-    <h2 id="case-title" style="width: 100%; font-size: 20px;">Кейс</h2>
+    <h2 id="case-title" style="width: 100%; font-size: 18px;">Кейс</h2>
     <div id="roulette-area" style="width: 100%;"></div>
     <div id="btns-area" style="width: 100%;"></div>
-    <div style="font-weight:bold; margin: 15px 0; color: #888; width: 100%; font-size: 14px;">СОДЕРЖИМОЕ:</div>
+    <div style="font-weight:bold; margin: 15px 0; color: #888; width: 100%; font-size: 13px;">СОДЕРЖИМОЕ:</div>
     <div id="case-items-preview" class="case-items-preview"></div>
-    <button class="btn" onclick="showPage('main-page', document.getElementById('nav-main'))">Назад</button>
+    <button class="btn" onclick="goToPage('main-page')">Назад</button>
 </div>
 
+<!-- ИНВЕНТАРЬ -->
 <div id="inventory-page" class="container">
     <button class="btn" style="background:var(--red); width:100%;" onclick="sellAll()">ПРОДАТЬ ВСЁ</button>
     <div id="inv-grid" class="inv-grid"></div>
 </div>
 
+<!-- АПГРЕЙД -->
 <div id="upgrade-page" class="container">
     <div class="upgrade-container">
         <div class="upgrade-side">
@@ -536,9 +566,10 @@
     </div>
 </div>
 
+<!-- ПРОМОКОДЫ -->
 <div id="promo-page" class="container">
     <div class="promo-container">
-        <h2 style="color: var(--accent); font-size: 20px;">🎁 Промокоды 🎁</h2>
+        <h2 style="color: var(--accent); font-size: 20px;">🎁 Промокод</h2>
         <p style="opacity: 0.7; font-size: 14px;">Введите и получите деньги</p>
         <input type="text" id="promo-input" class="promo-input" placeholder="Промокод...">
         <button class="promo-btn" onclick="applyPromo()">Активировать</button>
@@ -560,9 +591,8 @@
 
     const skins_db = {
         winter_1: { price: 100, items: [
-            {n:"USP | Лед", e:"🔫", r:"blue", p:40, ch:40},
-            {n:"АК | Снег", e:"🔫", r:"pink", p:800, ch:20},
-            {n:"ХУЙ-НАТАНА", e:"♾️", r:"pink", p:8000, ch:40}
+            {n:"USP | Лед", e:"🔫", r:"blue", p:40, ch:70},
+            {n:"АК | Снег", e:"🔫", r:"pink", p:800, ch:30}
         ]},
         winter_2: { price: 300, items: [
             {n:"M4 | Иней", e:"🔫", r:"purple", p:400, ch:60},
@@ -597,16 +627,14 @@
             {n:"М9 | Кровь", e:"🔪", r:"gold", p:15000, ch:20}
         ]},
         knife_3: { price: 9000, items: [
-            {n:"Золотой Нож", e:"🔪", r:"gold", p:50000, ch:30},
-            {n:"Керамбитик", e:"🔪", r:"red", p:555, ch:80}
+            {n:"Золотой Нож", e:"🔪", r:"gold", p:50000, ch:100}
         ]}
     };
 
     const promoCodes = {
         "GIFT2026": 1000,
         "FREEMONEY": 2500,
-        "DAMBAEVPRO": 5000,
-        "VOVA-THOR": 444
+        "DAMBAEVPRO": 5000
     };
     let usedPromos = JSON.parse(localStorage.getItem('usedPromos')) || [];
 
@@ -614,32 +642,42 @@
         document.getElementById('balance').innerText = balance + '$';
     }
 
-    function showPage(id, el) {
-        if (isSpinning) return;
+    function goToPage(id, el) {
+        closeMobileMenu();
+
         document.querySelectorAll('.container').forEach(c => c.classList.remove('active-page'));
+        document.getElementById(id).classList.add('active-page');
+
         document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-        const target = document.getElementById(id);
-        if (target) target.classList.add('active-page');
-        if (el) el.classList.add('active');
-        if (id === 'promo-page') document.getElementById('mobile-menu').style.display = 'none';
+        document.querySelectorAll('.nav-link-mobile').forEach(l => l.classList.remove('active'));
+
+        if (el && el.classList.contains('nav-link')) {
+            el.classList.add('active');
+        }
 
         if (id === 'inventory-page') renderInv('inv-grid');
         if (id === 'upgrade-page') { renderInv('upgrade-inv-list', true); updateUpUI(); }
     }
 
-    function toggleMenu() {
+    function toggleMobileMenu() {
         const menu = document.getElementById('mobile-menu');
-        const btn = document.querySelector('.hamburger');
-        menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
-        btn.classList.toggle('active');
+        if (menu.style.display === 'flex') {
+            menu.style.display = 'none';
+        } else {
+            menu.style.display = 'flex';
+        }
+    }
+
+    function closeMobileMenu() {
+        document.getElementById('mobile-menu').style.display = 'none';
     }
 
     function prepCase(k) {
         curK = k;
-        showPage('case-opener');
+        goToPage('case-opener');
         document.getElementById('case-title').innerText = k.replace('_', ' ').toUpperCase();
         document.getElementById('roulette-area').innerHTML = '';
-
+        
         const p = skins_db[k].price;
         document.getElementById('btns-area').innerHTML = `
             <button class="btn btn-main" onclick="startSpin(1)">x1 — ${p}$</button>
@@ -722,7 +760,7 @@
         const container = document.getElementById(targetId);
         if (!container) return;
         container.innerHTML = inventory.length ? inventory.map(i => `
-            <div class="inv-item ${selectedUpId === i.id ? 'selected' : ''}" style="border-color:var(--${i.r})" onclick="${sel ? `selUp(${i.id})` : ''}">
+            <div class="inv-item ${selectedUpId === i.id ? 'selected' : ''}" style="border-color:var(--${i.r})" onclick="${sel ? 'selUp(' + i.id + ')' : ''}">
                 <span>${i.e}</span><br><small>${i.n}</small><br><b>${i.p}$</b>
                 ${!sel ? `<button class="sell-btn-one" onclick="sellOne(${i.id})">Продать</button>` : ''}
             </div>
@@ -803,7 +841,7 @@
         }, 3100);
     }
 
-        function applyPromo() {
+    function applyPromo() {
         const input = document.getElementById('promo-input');
         const code = input.value.trim().toUpperCase();
 
@@ -831,7 +869,7 @@
         input.value = '';
     }
 
-    // Снег
+    // АНИМИРОВАННЫЙ СНЕЖОК
     const canvas = document.getElementById('snow');
     const ctx = canvas.getContext('2d');
     let pts = [];
